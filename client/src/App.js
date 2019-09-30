@@ -5,9 +5,12 @@ import Home from './components/pages/Home';
 import About from './components/pages/About'; 
 import './App.css';
 
+import ContactState from './context/contact/ContactState';
+
 const App = () => {
   return (
-    <Router>
+    <ContactState>
+<Router>
     <Fragment>
       <Navbar />
       <div className="container">
@@ -18,6 +21,8 @@ const App = () => {
       </div>
     </Fragment>
     </Router>
+    </ContactState>
+    
   );
 }
 
