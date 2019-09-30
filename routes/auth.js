@@ -15,7 +15,7 @@ const User = require('../models/User');
 // @access  Private
 router.get('/', auth, async(req,res) => {
     try {
-
+      // Find the user by matching credentials
       const user  =await User.findById(req.user.id).select('-password');
       res.json(user);
       
@@ -35,6 +35,7 @@ router.post(
       check('password', 'Password is required').exists()
     ],
     async (req, res) => {
+      // Check for validation errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -43,18 +44,21 @@ router.post(
       const { email, password } = req.body;
   
       try {
+        // Check if user exists in the database
         let user = await User.findOne({ email });
   
         if (!user) {
           return res.status(400).json({ msg: 'Invalid Credentials' });
         }
-  
+        
+        // Match passwords
         const isMatch = await bcrypt.compare(password, user.password);
-  
+        
         if (!isMatch) {
           return res.status(400).json({ msg: 'Invalid Credentials' });
         }
-  
+        
+        // Return payload if credentials match
         const payload = {
           user: {
             id: user.id

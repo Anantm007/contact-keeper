@@ -22,39 +22,47 @@ router.post(
         'Please enter a password with 6 or more characters'
       ).isLength({ min: 6 })
     ],
+
+    // Chek for erros
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-  
+      
+      // destrucutre req.body
       const { name, email, password } = req.body;
   
       try {
+        // check if user already exists
         let user = await User.findOne({ email });
   
         if (user) {
           return res.status(400).json({ msg: 'User already exists' });
         }
-  
+        
+        // Create mew user
         user = new User({
           name,
           email,
           password
         });
-  
+        
+        // Salt and hash the password
         const salt = await bcrypt.genSalt(10);
-  
         user.password = await bcrypt.hash(password, salt);
-  
+        
+        // Save the user
         await user.save();
-  
+        
+        // Payload for authentication
         const payload = {
           user: {
             id: user.id
           }
         };
-  
+        
+        // Sign the token and return
         jwt.sign(
           payload,
           config.get('jwtSecret'),
