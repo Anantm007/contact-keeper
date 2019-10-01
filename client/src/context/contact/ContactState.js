@@ -28,6 +28,12 @@ const ContactState = props => {
                 email: 'ajay@gmail.com',
                 phone: '111444777',
                 type: 'personal' 
+            },
+
+            {
+                id: 3,
+                name: 'dummy',
+                type: 'professional'
             }
         ]
     };

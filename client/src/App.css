@@ -237,6 +237,7 @@ img {
 .alert-primary {
   background: var(--primary-color);
   color: #fff;
+  padding: 0.1rem;
 }
 
 .btn-light,
@@ -269,6 +270,7 @@ img {
 .alert-success {
   background: var(--success-color);
   color: #fff;
+  padding: 0.1rem;
 }
 
 .btn-white,
